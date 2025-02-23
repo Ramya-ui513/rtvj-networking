@@ -11,13 +11,13 @@ resource "tls_private_key" "ssh_key" {
 
 # Resource Group
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
+  name     = var.rg_name
   location = var.location
 }
 
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
-  name                = "${var.vm_name}-vnet"
+  name                = "${var.virtual_machine_name}-vnet"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = ["10.0.0.0/23"]
@@ -25,7 +25,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 # Subnet
 resource "azurerm_subnet" "subnet" {
-  name                 = "${var.vm_name}-subnet"
+  name                 = "${var.virtual_machine_name}-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.0.0/24"]
@@ -33,7 +33,7 @@ resource "azurerm_subnet" "subnet" {
 
 # Public IP Address
 resource "azurerm_public_ip" "public_ip" {
-  name                = "${var.vm_name}-public-ip"
+  name                = "${var.virtual_machine_name}-public-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
@@ -42,7 +42,7 @@ resource "azurerm_public_ip" "public_ip" {
 
 # Network Interface
 resource "azurerm_network_interface" "nic" {
-  name                = "${var.vm_name}-nic"
+  name                = "${var.virtual_machine_name}-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -92,7 +92,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
 
 # Linux Virtual Machine
 resource "azurerm_linux_virtual_machine" "linux_vm" {
-  name                = var.vm_name
+  name                = var.virtual_machine_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = "Standard_B1s"  # Use a suitable VM size
