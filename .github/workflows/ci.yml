@@ -65,7 +65,7 @@ jobs:
 
       - name: Read VM IP
         id: read_vm_ip
-        run: echo "13.83.91.155" >> $GITHUB_ENV
+        run: echo "VM_IP=13.83.91.155" >> $GITHUB_ENV
 
       - name: Setup SSH Key
         run: |
