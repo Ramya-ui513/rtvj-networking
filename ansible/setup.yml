@@ -40,6 +40,23 @@
         owner: rtvjadmin
         mode: '0644'
 
+    - name: Stop all running containers
+      shell: docker stop $(docker ps -q)
+      register: stop_result
+      changed_when: stop_result.stdout != ""
+
+    # Remove all stopped containers
+    - name: Remove all stopped containers
+      shell: docker rm $(docker ps -aq)
+      register: remove_result
+      changed_when: remove_result.stdout != ""
+
+    # Remove all Docker images (optional)
+    - name: Remove all Docker images
+      shell: docker rmi -f $(docker images -q)
+      register: remove_images
+      changed_when: remove_images.stdout != ""
+
     # # Build Docker image
     - name: Build Docker image
       ansible.builtin.command:
