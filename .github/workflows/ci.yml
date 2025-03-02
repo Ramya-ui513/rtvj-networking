@@ -57,15 +57,19 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my-azure-key.pem
           chmod 600 my-azure-key.pem
           ssh-keygen -y -f my-azure-key.pem > my-azure-key.pub
+        working-directory: ansible
 
       - name: Setup Ansible Inventory
         run: |
           echo "[azure_vm]" > inventory.ini
           echo "172.184.198.156 ansible_user=azureuser ansible_ssh_private_key_file=my-azure-key.pem" >> inventory.ini
+        working-directory: ansible
 
       - name: Test SSH Connection
         run: ssh -o StrictHostKeyChecking=no -i my-azure-key.pem azureuser@172.184.198.156 "echo SSH Connection Successful"
+        working-directory: ansible
 
       - name: Run Ansible Playbook
         run: ansible-playbook -i inventory.ini playbook.yml
+        working-directory: ansible
 
