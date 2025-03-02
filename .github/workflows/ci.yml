@@ -24,22 +24,27 @@ jobs:
 
       - name: Initialize OpenTofu
         run: tofu init
+        working-directory: terraforms
 
       - name: Plan OpenTofu Deployment
         id: plan
         run: tofu plan -out=tfplan
+        working-directory: terraforms
         continue-on-error: true  # Prevents stopping if no changes
 
       - name: Apply OpenTofu Deployment (Only if changes exist)
         if: steps.plan.outcome == 'success'
         run: tofu apply -auto-approve tfplan
+        working-directory: terraforms
 
       - name: Extract VM IP
         run: tofu output -raw public_ip_address > vm_ip.txt
+        working-directory: terraforms
         id: get_vm_ip
       
       - name: Show VM IP
         run: tofu output
+        working-directory: terraforms
 
       - name: Upload VM IP as an artifact
         uses: actions/upload-artifact@v4
@@ -71,11 +76,14 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my-azure-key.pem
           chmod 600 my-azure-key.pem
+        working-directory: ansible
 
       - name: Setup Ansible Inventory
         run: |
           echo "[azure_vm]" > inventory.ini
           echo "$VM_IP ansible_user=azureuser ansible_ssh_private_key_file=my-azure-key.pem" >> inventory.ini
+        working-directory: ansible
 
       - name: Run Ansible Playbook
         run: ansible-playbook -i inventory.ini playbook.yml
+        working-directory: ansible
