@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  terraform:
+  opentofu:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -17,25 +17,25 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2
+      - name: Install OpenTofu (Terraform Alternative)
+        uses: opentofu/setup-opentofu@v1
         with:
-          terraform_version: latest
+          tofu_version: latest
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Initialize OpenTofu
+        run: tofu init
 
-      - name: Terraform Plan
+      - name: Plan OpenTofu Deployment
         id: plan
-        run: terraform plan -out=tfplan
+        run: tofu plan -out=tfplan
         continue-on-error: true  # Prevents stopping if no changes
 
-      - name: Terraform Apply (Only if changes exist)
+      - name: Apply OpenTofu Deployment (Only if changes exist)
         if: steps.plan.outcome == 'success'
-        run: terraform apply -auto-approve tfplan
+        run: tofu apply -auto-approve tfplan
 
       - name: Extract VM IP
-        run: terraform output -raw public_ip_address > vm_ip.txt
+        run: tofu output -raw public_ip_address > vm_ip.txt
         id: get_vm_ip
 
       - name: Upload VM IP as an artifact
@@ -45,7 +45,7 @@ jobs:
           path: vm_ip.txt
 
   ansible:
-    needs: terraform
+    needs: opentofu
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
