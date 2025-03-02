@@ -52,7 +52,7 @@ jobs:
         id: read_vm_ip
         run: echo "VM_IP=172.184.198.156" >> $GITHUB_ENV
 
-            - name: Setup SSH Key
+      - name: Setup SSH Key
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my-azure-key.pem
           chmod 600 my-azure-key.pem
