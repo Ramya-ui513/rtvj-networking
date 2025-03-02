@@ -52,18 +52,20 @@ jobs:
         id: read_vm_ip
         run: echo "VM_IP=172.184.198.156" >> $GITHUB_ENV
 
-      - name: Setup SSH Key
+            - name: Setup SSH Key
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my-azure-key.pem
           chmod 600 my-azure-key.pem
-        working-directory: ansible
+          ssh-keygen -y -f my-azure-key.pem > my-azure-key.pub
 
       - name: Setup Ansible Inventory
         run: |
           echo "[azure_vm]" > inventory.ini
-          echo "$VM_IP ansible_user=azureuser ansible_ssh_private_key_file=my-azure-key.pem" >> inventory.ini
-        working-directory: ansible
+          echo "172.184.198.156 ansible_user=azureuser ansible_ssh_private_key_file=my-azure-key.pem" >> inventory.ini
+
+      - name: Test SSH Connection
+        run: ssh -o StrictHostKeyChecking=no -i my-azure-key.pem azureuser@172.184.198.156 "echo SSH Connection Successful"
 
       - name: Run Ansible Playbook
-        run: ansible-playbook -i inventory.ini setup.yml
-        working-directory: ansible
+        run: ansible-playbook -i inventory.ini playbook.yml
+
