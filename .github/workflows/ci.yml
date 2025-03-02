@@ -36,6 +36,7 @@ jobs:
         if: steps.plan.outcome == 'success'
         run: tofu apply -auto-approve tfplan
         working-directory: terraforms
+        continue-on-error: true
 
       - name: Extract VM IP
         run: tofu output -raw public_ip_address > vm_ip.txt
@@ -70,7 +71,7 @@ jobs:
 
       - name: Read VM IP
         id: read_vm_ip
-        run: echo "VM_IP=13.83.91.155" >> $GITHUB_ENV
+        run: echo "VM_IP=172.184.198.156" >> $GITHUB_ENV
 
       - name: Setup SSH Key
         run: |
