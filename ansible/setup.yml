@@ -27,23 +27,23 @@
     # # Copy Dockerfile to VM
     - name: Copy Dockerfile to VM
       ansible.builtin.copy:
-        src: ./Dockerfile  # Adjust path if necessary
-        dest: /home/azureuser/Dockerfile
-        owner: azureuser
+        src: ../Dockerfile  # Adjust path if necessary
+        dest: /home/rtvjadmin/Dockerfile
+        owner: rtvjadmin
         mode: '0644'
 
     # # Copy application code to VM
     - name: Copy application code to VM
       ansible.builtin.copy:
-        src: ./html  # Adjust path if necessary
-        dest: /home/azureuser/
-        owner: azureuser
+        src: ../app  # Adjust path if necessary
+        dest: /home/rtvjadmin/
+        owner: rtvjadmin
         mode: '0644'
 
     # # Build Docker image
     - name: Build Docker image
       ansible.builtin.command:
-        cmd: docker build -t myapp:latest /home/azureuser/
+        cmd: docker build -t myapp:latest /home/rtvjadmin/
 
     # # Run Docker container
     - name: Run Docker container

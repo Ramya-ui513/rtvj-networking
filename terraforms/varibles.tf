@@ -13,3 +13,6 @@ variable "virtual_machine_name" {
 variable "admin_username" {
   default = "rtvjadmin"
 }
+variable "admin_password"{
+  default = "Rtvj@705"
+}

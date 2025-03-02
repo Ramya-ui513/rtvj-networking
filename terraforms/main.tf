@@ -1,12 +1,12 @@
 provider "azurerm" {
   features {}
-  subscription_id = "c14e5455-f785-4156-af19-54dcd879bacd"
+  subscription_id = "5836e122-bf9d-4679-ae36-e838543d88d8"
 }
 
 # Generate SSH Key Pair
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
-  rsa_bits  = 2048
+  rsa_bits  = 4096
 }
 
 # Resource Group
@@ -102,9 +102,9 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   # Use the generated SSH public key
   admin_ssh_key {
     username   = var.admin_username
-    public_key = tls_private_key.ssh_key.public_key_openssh
+    public_key = file("../my-azure-key.pem.pub")  
   }
-
+  
   network_interface_ids = [azurerm_network_interface.nic.id]
 
   os_disk {
@@ -114,8 +114,8 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS" # 24, 22
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2" # 24, 22
     version   = "latest"
   }
 }
