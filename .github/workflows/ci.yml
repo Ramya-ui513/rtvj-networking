@@ -1,4 +1,4 @@
-name: Terraform & Ansible Deployment
+name: OpenTofu & Ansible Deployment
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Azure Login
         uses: azure/login@v1
@@ -39,7 +39,7 @@ jobs:
         id: get_vm_ip
 
       - name: Upload VM IP as an artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vm_ip
           path: vm_ip.txt
@@ -49,13 +49,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
       - name: Download VM IP
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vm_ip
           path: .
