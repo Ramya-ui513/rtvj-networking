@@ -59,20 +59,8 @@ jobs:
           ssh-keygen -y -f my-azure-key.pem > my-azure-key.pub
         working-directory: ansible
 
-      - name: Setup Ansible Inventory
-        run: |
-          echo "[all]" > inventory.ini
-          echo "172.184.198.156" > inventory.ini
-          echo "[all:vars]" > inventory.ini
-          echo "ansible_user=rtvjadmin" > inventory.ini
-          echo "ansible_ssh_private_key_file=my-azure-key.pem" > inventory.ini
-          echo "ansible_python_interpreter=/usr/bin/python3" > inventory.ini
-          echo "ansible_ssh_common_args='-o ServerAliveInterval=60 -o ServerAliveCountMax=3'" > inventory.ini
-          echo "ansible_ssh_extra_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'" > inventory.ini
-        working-directory: ansible
-
       - name: Test SSH Connection
-        run: ssh -o StrictHostKeyChecking=no -i my-azure-key.pem azureuser@172.184.198.156 "echo SSH Connection Successful"
+        run: ssh -o StrictHostKeyChecking=no -i my-azure-key.pem rtvjadmin@172.184.198.156 "echo SSH Connection Successful"
         working-directory: ansible
 
       - name: Run Ansible Playbook
