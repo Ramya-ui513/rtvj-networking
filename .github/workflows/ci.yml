@@ -5,6 +5,7 @@ on:
     branches:
       - main
 
+
 jobs:
   opentofu:
     runs-on: ubuntu-latest
