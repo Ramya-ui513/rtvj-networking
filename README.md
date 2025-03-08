@@ -34,7 +34,7 @@ Terraform reports that the infrastructure matches the configuration, as shown be
 
 <img width="452" alt="image" src="https://github.com/user-attachments/assets/617e562c-5fe8-4b7d-9048-381759f435fb" />
 
-## Terraform Initialization**
+## Terraform Initialization
 
 The ‘terraform init‘ command initializes the Terraform working directory by downloading necessary provider plugins. It also sets up the backend for state management. The output indicates that the environment has been successfully initialized.This step is crucial before running any other Terraform commands.
 
