@@ -26,6 +26,14 @@ Before you begin, ensure you have the following:
 3. **GitHub Account**: For repository management and GitHub Actions configuration.
 4. **Azure Subscription**: To provision resources on Azure.
 
+##**Terraform Plan Output**
+
+The following shows the output of the ‘terraform plan‘ command, which checks the current state of
+the infrastructure and compares it with the desired configuration. Since no changes were needed,
+Terraform reports that the infrastructure matches the configuration, as shown below:
+<img width="452" alt="image" src="https://github.com/user-attachments/assets/617e562c-5fe8-4b7d-9048-381759f435fb" />
+
+
 ### Clone the Repository
 
 Clone this repository to your local machine:
