@@ -26,6 +26,11 @@ Before you begin, ensure you have the following:
 3. **GitHub Account**: For repository management and GitHub Actions configuration.
 4. **Azure Subscription**: To provision resources on Azure.
 
+## Architecture Diagram
+
+![image](https://github.com/user-attachments/assets/9bdad3d0-a528-4299-9f15-860ea1b76da3)
+
+
 ## Terraform Plan Output
 
 The following shows the output of the ‘terraform plan‘ command, which checks the current state of
